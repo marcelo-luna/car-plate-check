@@ -1,0 +1,77 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  carplatecheckworker:
+    image: carplatecheckworker
+    build:
+      context: .
+      dockerfile: Car.Plate.Check.Worker/Dockerfile
+      args:
+        - configuration=Debug
+    ports:
+      - 5001:5001
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+
+  carplatechekDeviceworker:
+    image: carplatechekdeviceworker
+    build:
+      context: .
+      dockerfile: Car.Plate.Chek.Device.Worker/Dockerfile
+      args:
+        - configuration=Debug
+    ports:
+      - 5000:5000
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+    depends_on:
+      rabbitmq:
+        condition: service_started
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: 'rabbitmq'
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=p@ss
+      - POSTGRES_USER=carplateuser
+      - POSTGRES_DB=carplate_db
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: dev@domain-name.com
+      PGADMIN_DEFAULT_PASSWORD: strong-password
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+volumes:
+  rabbitmq_data:
+  local_pgdata:
+  pgadmin-data:
+
+
+#networks:
+#  default:
+#    driver: debug-network
