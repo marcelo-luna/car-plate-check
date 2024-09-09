@@ -1,0 +1,50 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Docker .NET Attach (Preview)",
+            "type": "docker",
+            "request": "attach",
+            "platform": "netCore",
+            "sourceFileMap": {
+                "/src": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Device .NET Core Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Car.Plate.Chek.Device.Worker/bin/Debug/net8.0/Car.Plate.Chek.Device.Worker.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Car.Plate.Chek.Device.Worker",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Worker .NET Core Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Car.Plate.Check.Worker/bin/Debug/net8.0/Car.Plate.Check.Worker.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Car.Plate.Check.Worker",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        },
+        {
+            "name": "Docker .NET Launch",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "netCore": {
+                "appProject": "${workspaceFolder}/Car.Plate.Check.Worker/Car.Plate.Check.Worker.csproj"
+            }
+        }
+    ]
+}
