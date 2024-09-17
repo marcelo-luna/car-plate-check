@@ -1,7 +1,9 @@
 using Car.Plate.Check.Worker;
 
 var builder = Host.CreateApplicationBuilder(args);
-builder.Services.AddHostedService<Worker>();
+ServiceCollectionExtesion.AddWorker(builder.Services);
+ServiceCollectionExtesion.AddRabbitMQ(builder.Services);
+ServiceCollectionExtesion.AddMediatR(builder.Services);
 
 var host = builder.Build();
 host.Run();

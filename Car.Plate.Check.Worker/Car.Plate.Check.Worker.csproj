@@ -11,4 +11,9 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Car.Plate.Check.Abstraction\Car.Plate.Check.Abstraction.csproj" />
+    <ProjectReference Include="..\Car.Plate.Check.Command\Car.Plate.Check.Command.csproj" />
+  </ItemGroup>
 </Project>
