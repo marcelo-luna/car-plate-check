@@ -36,7 +36,7 @@ public static class ServiceCollectionExtesion
                 {
                     Console.WriteLine($"Failed to connect to RabbitMQ. Attempt {currentAttempt + 1}/{maxAttempts}. Error: {ex.Message}");
                     currentAttempt++;
-                    Thread.Sleep(1000); // Wait for 1 second before retrying
+                    Thread.Sleep(5000); // Wait for 5 second before retrying
                 }
             }
 

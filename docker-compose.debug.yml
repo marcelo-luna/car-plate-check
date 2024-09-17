@@ -16,6 +16,9 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
+    depends_on:
+      rabbitmq:
+        condition: service_started
 
   carplatechekDeviceworker:
     image: carplatechekdeviceworker
